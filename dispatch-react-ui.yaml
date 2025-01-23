@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dispatch-ui
+  name: dispatch-ui
+  namespace: airline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dispatch-ui
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dispatch-ui
+    spec:
+      containers:
+      - env:
+        - name: REACT_APP_GOOGLE_MAPS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: REACT_APP_GOOGLE_MAPS_API_KEY
+              name: google-maps-api-key
+        image: 727796463450.dkr.ecr.us-east-1.amazonaws.com/react-egan-air-ui:latest
+        imagePullPolicy: Always
+        name: react-egan-air-ui
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ecr-secret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
