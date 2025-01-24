@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-flights-sched
+  namespace: airline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flights
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: flights
+    spec:
+      containers:
+      - image: 727796463450.dkr.ecr.us-east-1.amazonaws.com/arrivals-service:latest
+        imagePullPolicy: Always
+        name: get-arrivals
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ecr-secret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
