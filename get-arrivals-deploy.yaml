@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: get-flights-sched
+  name: get-arrivals
   namespace: airline
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flights
+      app: get-arrivals
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: flights
+        app: get-arrivals
     spec:
       containers:
       - image: 727796463450.dkr.ecr.us-east-1.amazonaws.com/arrivals-service:latest
