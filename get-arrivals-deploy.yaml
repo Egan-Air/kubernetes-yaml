@@ -19,11 +19,11 @@ spec:
         app: get-arrivals
     spec:
       containers:
-      - image: 727796463450.dkr.ecr.us-east-1.amazonaws.com/arrivals-service:latest
+      - image: <aws_acct_id>.dkr.ecr.us-east-1.amazonaws.com/arrivals-service:latest
         imagePullPolicy: Always
         name: get-arrivals
         ports:
-        - containerPort: 8080
+        - containerPort: 8082
           protocol: TCP
         resources: {}
       dnsPolicy: ClusterFirst
